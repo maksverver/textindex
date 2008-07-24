@@ -1,0 +1,33 @@
+All values are stored in network-order?
+
+Length  Description
+
+HEADER  == 16 bytes
+    8   Magic string: (TODO)
+    4   Header length (== 0010h)
+    2   Header version (0100h)
+    2   [RESERVED: 0000h]
+
+HASHTABLE (standard 32-bit FNV-1a, modulo N)
+    6   [RESERVED: 00000000h]
+    2   Table size (N entries)
+  8*N   Offsets of keyword in file
+    8   Offset to end of file (== total file length)
+
+ENTRIES
+    ?   [ENTRY]*
+    
+[ENTRY]
+    Entry header (32 bytes)
+    4   [RESERVED: 00000000h]
+    4   Term string length (TSL bytes; including excluding character)
+    8   Document list length (DLL bytes)
+    8   Term frequency list length (TFLL bytes)
+    8   Document Frequency (DF)
+    Entry data
+    TSL  Zero-terminated UTF-8 encoded string
+    -    [PADDING TO 8 BYTE OFFSET]
+    DLL  deflated: delta-encoded: DF * [document id] (8 bytes)
+    -    [PADDING TO 8 BYTE OFFSET]
+    TFLL deflated: DF * [relative term frequency] (2 bytes)
+    -    [PADDING TO 8 BYTE OFFSET]

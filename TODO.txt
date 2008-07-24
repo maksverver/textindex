@@ -1,0 +1,9 @@
+Global:
+ - Index file locking
+
+create:
+ - UTF-8 validation of input data
+
+query:
+ - Support 'real' queries
+ - Define suitable output format(s) for 'query' utility
